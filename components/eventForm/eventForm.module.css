@@ -1,0 +1,13 @@
+.main {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  gap: 30px;
+  flex-direction: column;
+  margin-top: 70px;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+}

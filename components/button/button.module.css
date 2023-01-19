@@ -1,0 +1,17 @@
+.main {
+  all: unset;
+  width: 220px;
+  height: 60px;
+  background-color: #5fb672;
+  text-align: center;
+  font-weight: 600;
+  font-size: 22px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.main:hover {
+  background-color: #40a253;
+}

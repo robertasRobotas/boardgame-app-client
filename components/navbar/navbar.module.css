@@ -1,0 +1,12 @@
+.main {
+  height: 100px;
+  background-color: #3a3a3a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 30px;
+  color: white;
+}
