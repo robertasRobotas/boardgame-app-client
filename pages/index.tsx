@@ -1,47 +1,50 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import styles from "../styles/Home.module.css";
 import Event from "../components/event/Event";
 import Navbar from "../components/navbar/Navbar";
 import Button from "../components/button/Button";
+import Router from "next/router";
 
 export default function Home() {
+  const [events, setEvents] = useState<any>([]);
+
+  const fetchEvents = async () => {
+    const response = await axios.get("http://localhost:3002/events");
+
+    setEvents(response.data.event);
+    console.log(response);
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
   return (
     <div className={styles.container}>
       <Navbar />
 
       <div className={styles.buttonWrapper}>
-        <Button onClick={() => console.log("Clicked")} text="Create Event" />
+        <Button
+          onClick={() => Router.push("/createEvent")}
+          text="Create Event"
+        />
       </div>
 
       <div className={styles.eventWrapper}>
-        <Event
-          id="asdasdasd"
-          imgSrc="https://gameroom.lt/55765/terraforming-mars.jpg"
-          title="Tearraforming mars"
-          spaesLeft={4}
-          address="alaus namai"
-          date="2024.02.02"
-          time="10:00"
-        />
-
-        <Event
-          id="klnlknlknlknl"
-          imgSrc="https://gameroom.lt/55765/terraforming-mars.jpg"
-          title="Tearraforming mars"
-          spaesLeft={4}
-          address="alaus namai"
-          date="2024.02.02"
-          time="10:00"
-        />
-
-        <Event
-          id="xvbcxvxcvxcvxcv"
-          imgSrc="https://gameroom.lt/55765/terraforming-mars.jpg"
-          title="Tearraforming mars"
-          spaesLeft={4}
-          address="alaus namai"
-          date="2024.02.02"
-          time="10:00"
-        />
+        {events.map((event: any) => {
+          return (
+            <Event
+              id={event._id}
+              imgSrc={event.boardgameImage}
+              title={event.boardgameName}
+              spaesLeft={event.requiredPlayers}
+              address={event.address}
+              date={event.date}
+              time={event.time}
+            />
+          );
+        })}
       </div>
     </div>
   );
