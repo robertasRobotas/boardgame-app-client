@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Router from "next/router";
 import styles from "./eventForm.module.css";
 import Input from "../input/Input";
 import Button from "../button/Button";
@@ -28,8 +29,8 @@ const EventForm: React.FC = () => {
       requiredPlayers: requiredPlayers,
     };
 
-    const response = axios.post("http://localhost:3002/event", eventData);
-    console.log("response", response);
+    axios.post("http://localhost:3002/event", eventData);
+    Router.push("/");
   };
 
   return (

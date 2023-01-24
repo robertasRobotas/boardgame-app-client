@@ -9,11 +9,16 @@ import Router from "next/router";
 export default function Home() {
   const [events, setEvents] = useState<any>([]);
 
+  const [filter, setFilter] = useState<any>("");
+
   const fetchEvents = async () => {
     const response = await axios.get("http://localhost:3002/events");
 
     setEvents(response.data.event);
-    console.log(response);
+  };
+
+  const onChangeFilterInputHander = (eventValue: any) => {
+    setFilter(eventValue);
   };
 
   useEffect(() => {
@@ -31,21 +36,40 @@ export default function Home() {
         />
       </div>
 
+      <div className={styles.inputWrapper}>
+        <input
+          value={filter}
+          onChange={(event) => onChangeFilterInputHander(event.target.value)}
+        />
+      </div>
+
       <div className={styles.eventWrapper}>
-        {events.map((event: any) => {
-          return (
-            <Event
-              id={event._id}
-              imgSrc={event.boardgameImage}
-              title={event.boardgameName}
-              spaesLeft={event.requiredPlayers}
-              address={event.address}
-              date={event.date}
-              time={event.time}
-            />
-          );
-        })}
+        {events
+          .filter((event: any) => event.boardgameName.includes(filter))
+          .map((event: any) => {
+            return (
+              <Event
+                id={event._id}
+                imgSrc={event.boardgameImage}
+                title={event.boardgameName}
+                spaesLeft={event.requiredPlayers}
+                address={event.address}
+                date={event.date}
+                time={event.time}
+              />
+            );
+          })}
       </div>
     </div>
   );
 }
+
+// export async function getServerSideProps() {
+//   const response = await axios.get("http://localhost:3002/events");
+
+//   return {
+//     props: {
+//       products: "response.data.event",
+//     },
+//   };
+// }

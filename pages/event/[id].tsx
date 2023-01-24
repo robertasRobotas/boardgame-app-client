@@ -8,16 +8,39 @@ import axios from "axios";
 
 export default function EventPage() {
   const [event, setEvent] = useState<any>();
+  const [isJoined, setJoined] = useState<any>(false);
+
+  const userId: any = "kj23i4i23u4gi23ug4324";
 
   const router = useRouter();
 
   const fetchEvent = async () => {
-    const response = await axios.get(
-      `http://localhost:3002/event/${router.query.id}`
+    const response = await axios.post(
+      `http://localhost:3002/event/${router.query.id}`,
+      { data: { userId: userId } }
     );
 
     setEvent(response.data.event);
-    console.log(response.data.event);
+    setJoined(response.data.isUserJoinedGame);
+    console.log(response.data);
+  };
+
+  const joinEvent = async () => {
+    const response = await axios.put(
+      `http://localhost:3002/event/join/${router.query.id}`,
+      { data: { userId: userId } }
+    );
+
+    setJoined(true);
+  };
+
+  const leaveEvent = async () => {
+    const response = await axios.put(
+      `http://localhost:3002/event/leave/${router.query.id}`,
+      { data: { userId: userId } }
+    );
+
+    setJoined(false);
   };
 
   useEffect(() => {
@@ -44,8 +67,14 @@ export default function EventPage() {
             </div>
             <div className={styles.actions}>
               <ActionButton
-                isJoined={true}
-                onClick={() => console.log("clicked")}
+                isJoined={isJoined}
+                onClick={() => {
+                  if (!isJoined) {
+                    joinEvent();
+                  } else {
+                    leaveEvent();
+                  }
+                }}
               />
             </div>
           </div>
