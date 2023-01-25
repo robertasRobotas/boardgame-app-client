@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Navbar from "../../components/navbar/Navbar";
 import styles from "./event.module.css";
 import ActionButton from "../../components/actionButton/ActionButton";
 import axios from "axios";
 
-export default function EventPage() {
+export default function EventPage(props: any) {
+  console.log("props", props);
+
   const [event, setEvent] = useState<any>();
   const [isJoined, setJoined] = useState<any>(false);
 
   const userId: any = "kj23i4i23u4gi23ug4324";
 
   const router = useRouter();
+
+  console.log(router);
 
   const fetchEvent = async () => {
     const response = await axios.post(
@@ -83,3 +87,16 @@ export default function EventPage() {
     </div>
   );
 }
+
+// export async function getServerSideProps() {
+//   const response = await axios.post(
+//     `http://localhost:3002/event/${Router.query.id}`,XXXXXXXXXXXXX
+//     { data: { userId: "kj23i4i23u4gi23ug4324" } }
+//   );
+
+//   return {
+//     props: {
+//       events: response.data.event,
+//     },
+//   };
+// }

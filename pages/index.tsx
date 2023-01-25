@@ -6,24 +6,14 @@ import Navbar from "../components/navbar/Navbar";
 import Button from "../components/button/Button";
 import Router from "next/router";
 
-export default function Home() {
-  const [events, setEvents] = useState<any>([]);
+export default function Home(props: any) {
+  const [events, setEvents] = useState<any>(props.events);
 
   const [filter, setFilter] = useState<any>("");
-
-  const fetchEvents = async () => {
-    const response = await axios.get("http://localhost:3002/events");
-
-    setEvents(response.data.event);
-  };
 
   const onChangeFilterInputHander = (eventValue: any) => {
     setFilter(eventValue);
   };
-
-  useEffect(() => {
-    fetchEvents();
-  }, []);
 
   return (
     <div className={styles.container}>
@@ -64,12 +54,12 @@ export default function Home() {
   );
 }
 
-// export async function getServerSideProps() {
-//   const response = await axios.get("http://localhost:3002/events");
+export async function getServerSideProps() {
+  const response = await axios.get("http://localhost:3002/events");
 
-//   return {
-//     props: {
-//       products: "response.data.event",
-//     },
-//   };
-// }
+  return {
+    props: {
+      events: response.data.event,
+    },
+  };
+}
