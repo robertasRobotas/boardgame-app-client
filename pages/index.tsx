@@ -54,7 +54,9 @@ export default function Home(props: any) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(contex: any) {
+  console.log("contex", contex);
+
   const response = await axios.get("http://localhost:3002/events");
 
   return {

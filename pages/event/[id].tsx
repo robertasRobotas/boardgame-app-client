@@ -1,33 +1,18 @@
 import { useEffect, useState } from "react";
 
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Navbar from "../../components/navbar/Navbar";
 import styles from "./event.module.css";
 import ActionButton from "../../components/actionButton/ActionButton";
 import axios from "axios";
 
-export default function EventPage(props: any) {
-  console.log("props", props);
-
-  const [event, setEvent] = useState<any>();
-  const [isJoined, setJoined] = useState<any>(false);
+export default function EventPage({ event: eventData, isUserJoinedGame }: any) {
+  const [event, setEvent] = useState<any>(eventData);
+  const [isJoined, setJoined] = useState<any>(isUserJoinedGame);
 
   const userId: any = "kj23i4i23u4gi23ug4324";
 
   const router = useRouter();
-
-  console.log(router);
-
-  const fetchEvent = async () => {
-    const response = await axios.post(
-      `http://localhost:3002/event/${router.query.id}`,
-      { data: { userId: userId } }
-    );
-
-    setEvent(response.data.event);
-    setJoined(response.data.isUserJoinedGame);
-    console.log(response.data);
-  };
 
   const joinEvent = async () => {
     const response = await axios.put(
@@ -46,12 +31,6 @@ export default function EventPage(props: any) {
 
     setJoined(false);
   };
-
-  useEffect(() => {
-    if (router.query.id) {
-      fetchEvent();
-    }
-  }, [router.query]);
 
   return (
     <div>
@@ -88,15 +67,21 @@ export default function EventPage(props: any) {
   );
 }
 
-// export async function getServerSideProps() {
-//   const response = await axios.post(
-//     `http://localhost:3002/event/${Router.query.id}`,XXXXXXXXXXXXX
-//     { data: { userId: "kj23i4i23u4gi23ug4324" } }
-//   );
+export async function getServerSideProps(ctx: any) {
+  console.log(ctx.req.cookies.jwt);
 
-//   return {
-//     props: {
-//       events: response.data.event,
-//     },
-//   };
-// }
+  const { data } = await axios.post(
+    `http://localhost:3002/event/${ctx.query.id}`,
+    {
+      data: { userId: "kj23i4i23u4gi23ug4324" },
+      headers: { jwt: ctx.req.cookies.jwt },
+    }
+  );
+
+  return {
+    props: {
+      event: data.event,
+      isUserJoinedGame: data.isUserJoinedGame,
+    },
+  };
+}
