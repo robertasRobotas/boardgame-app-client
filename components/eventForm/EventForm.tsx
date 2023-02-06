@@ -29,7 +29,7 @@ const EventForm: React.FC = () => {
       requiredPlayers: requiredPlayers,
     };
 
-    axios.post("http://localhost:3002/event", eventData);
+    axios.post("https://boardgame-server.onrender.com/event", eventData);
     Router.push("/");
   };
 

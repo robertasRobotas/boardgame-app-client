@@ -16,7 +16,7 @@ export default function EventPage({ event: eventData, isUserJoinedGame }: any) {
 
   const joinEvent = async () => {
     const response = await axios.put(
-      `http://localhost:3002/event/join/${router.query.id}`,
+      `https://boardgame-server.onrender.com/event/join/${router.query.id}`,
       { data: { userId: userId } }
     );
 
@@ -25,7 +25,7 @@ export default function EventPage({ event: eventData, isUserJoinedGame }: any) {
 
   const leaveEvent = async () => {
     const response = await axios.put(
-      `http://localhost:3002/event/leave/${router.query.id}`,
+      `https://boardgame-server.onrender.com/event/leave/${router.query.id}`,
       { data: { userId: userId } }
     );
 
@@ -71,7 +71,7 @@ export async function getServerSideProps(ctx: any) {
   console.log(ctx.req.cookies.jwt);
 
   const { data } = await axios.post(
-    `http://localhost:3002/event/${ctx.query.id}`,
+    `https://boardgame-server.onrender.com/event/${ctx.query.id}`,
     {
       data: { userId: "kj23i4i23u4gi23ug4324" },
       headers: { jwt: ctx.req.cookies.jwt },

@@ -57,7 +57,7 @@ export default function Home(props: any) {
 export async function getServerSideProps(contex: any) {
   console.log("contex", contex);
 
-  const response = await axios.get("http://localhost:3002/events");
+  const response = await axios.get("https://boardgame-server.onrender.com/events");
 
   return {
     props: {
